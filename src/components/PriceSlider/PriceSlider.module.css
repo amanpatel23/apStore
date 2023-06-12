@@ -1,0 +1,13 @@
+.priceSlider {
+  /* padding: 10px; */
+  margin-bottom: 20px;
+}
+
+.rangeSlider {
+  width: 100%;
+}
+
+.rangeLabel {
+  margin-top: 10px;
+  text-align: center;
+}

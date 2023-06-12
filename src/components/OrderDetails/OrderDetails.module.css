@@ -1,0 +1,37 @@
+.order {
+  margin-bottom: 40px;
+}
+
+.orderDate {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.orderTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orderTable th,
+.orderTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.orderTable th {
+  font-weight: bold;
+}
+
+.grandTotalLabel {
+  font-weight: bold;
+  text-align: right;
+  padding-top: 10px;
+}
+
+.grandTotalAmount {
+  font-weight: bold;
+  text-align: right;
+  padding-top: 10px;
+  color: #007bff;
+}
