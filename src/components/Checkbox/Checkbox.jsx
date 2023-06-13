@@ -26,7 +26,7 @@ function Checkbox({ label }) {
     <label className={styles.checkboxContainer}>
       <input
         type="checkbox"
-        checked={isChecked}
+        checked={checkedCategories.has(label) ? true : false}
         onChange={toggleCheckbox}
         className={styles.checkboxInput}
       />

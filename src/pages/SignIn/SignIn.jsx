@@ -5,18 +5,23 @@ import { Link } from "react-router-dom";
 import styles from "./SignIn.module.css";
 
 function SignIn() {
+  // Accessing data and functions from the user context
   const { signInHandler, user } = useContext(userContext);
 
+  // State variables for email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Navigate object for programmatic navigation
   const navigate = useNavigate();
 
+  // Sign in function
   const signIn = (event) => {
     event.preventDefault();
     signInHandler(email, password);
   };
 
+  // Effect hook to redirect to home page if user is already signed in
   useEffect(() => {
     if (user) {
       navigate("/");

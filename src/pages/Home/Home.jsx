@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { productContext } from "../../context/productContext";
 import Checkbox from "../../components/Checkbox/Checkbox";
 import styles from "./Home.module.css";
@@ -6,12 +6,18 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import PriceSlider from "../../components/PriceSlider/PriceSlider";
 
 function Home() {
-  const { filteredProducts, addToCartHandler, searchQuery, setSearchQuery } =
-    useContext(productContext);
+  // Accessing data from the product context
+  const {
+    filteredProducts, // Array of filtered products
+    addToCartHandler, // Function to handle adding to cart
+    searchQuery, // Search query string
+    setSearchQuery, // Function to update search query
+  } = useContext(productContext);
 
   return (
     <div className={styles.container}>
       <div className={styles.searchContainer}>
+        {/* Input for search query */}
         <input
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
@@ -29,6 +35,7 @@ function Home() {
           </div>
           <h3>Categories</h3>
           <div className={styles.categoryCheckboxes}>
+            {/* Category checkboxes */}
             <Checkbox label="Men's Clothing" />
             <Checkbox label="Women's Clothing" />
             <Checkbox label="Jewelry" />
@@ -36,6 +43,7 @@ function Home() {
           </div>
         </div>
         <div className={styles.productSection}>
+          {/* Render product cards */}
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -46,7 +54,6 @@ function Home() {
               image={product.image}
             />
           ))}
-          {/* More product cards */}
         </div>
       </div>
     </div>

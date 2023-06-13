@@ -10,28 +10,36 @@ import { userContext } from "./userContext";
 import { db } from "../config/firebaseConfig";
 import { toast } from "react-toastify";
 
+// Create a product context
 const productContext = createContext();
 
 function ProductProvider({ children }) {
-  const [productsArray, setProductsArray] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [isProductsLoading, setIsProductsLoading] = useState(false);
-  const [isCartItemsLoading, setIsCartItemsLoading] = useState(false);
-  const [isOrderDetailsLoading, setIsOrderDetailsLoading] = useState(false);
-  const [clickedItem, setClickedItem] = useState(null);
-  const [updateStatus, setUpdateStatus] = useState(null);
-  const [flashMessage, setFlashMessage] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [checkedCategories, setCheckedCategories] = useState(new Set());
-  const [maxPrice, setMaxPrice] = useState(100000);
-  const [placedOrder, setPlacedOrder] = useState(false);
-  const [cartItemExists, setCartItemExists] = useState("");
+  // State variables
+  const [productsArray, setProductsArray] = useState([]); // Array of all products
+  const [cartItems, setCartItems] = useState([]); // Items in the cart
+  const [orders, setOrders] = useState([]); // Placed orders
+  const [isProductsLoading, setIsProductsLoading] = useState(false); // Loading state for products
+  const [isCartItemsLoading, setIsCartItemsLoading] = useState(false); // Loading state for cart items
+  const [isOrderDetailsLoading, setIsOrderDetailsLoading] = useState(false); // Loading state for order details
+  const [clickedItem, setClickedItem] = useState(null); // Currently clicked item ID
+  const [updateStatus, setUpdateStatus] = useState(null); // Status of update operation
+  const [flashMessage, setFlashMessage] = useState(""); // Flash message to display
+  const [searchQuery, setSearchQuery] = useState(""); // Search query for products
+  const [filteredProducts, setFilteredProducts] = useState([]); // Filtered products based on search and filters
+  const [checkedCategories, setCheckedCategories] = useState(new Set()); // Checked categories for filtering
+  const [maxPrice, setMaxPrice] = useState(100000); // Maximum price for filtering
+  const [placedOrder, setPlacedOrder] = useState(false); // Flag for placed order
+  const [cartItemExists, setCartItemExists] = useState(""); // Flag for existing cart item
 
-  const { user } = useContext(userContext);
+  const { user } = useContext(userContext); // Access user from user context
 
+  // Add item to the cart
   const addToCartHandler = (id, image, name, price) => {
+    if (!user) {
+      setUpdateStatus("error");
+      setFlashMessage("You Are Not LoggedIn.");
+      return;
+    }
     setClickedItem(id);
     const existingItem = cartItems.find((item) => item.id === id);
     if (!existingItem) {
@@ -48,6 +56,7 @@ function ProductProvider({ children }) {
     }
   };
 
+  // Decrement the quantity of an item in the cart
   const decrementQtyHandler = (id) => {
     setClickedItem(id);
     setCartItems((prevCartItems) =>
@@ -62,9 +71,10 @@ function ProductProvider({ children }) {
         .filter((item) => item.qty > 0)
     );
 
-    setFlashMessage("Product Count Decremented Succesfully");
+    setFlashMessage("Product Count Decremented Successfully");
   };
 
+  // Remove item from the cart
   const removeFromCartHandler = (id) => {
     setClickedItem(id);
     setCartItems((prevCartItems) =>
@@ -74,6 +84,7 @@ function ProductProvider({ children }) {
     setFlashMessage("Product Removed From Your Cart");
   };
 
+  // Place an order
   const placeOrderHandler = () => {
     setPlacedOrder(true);
     const currOrder = [];
@@ -159,6 +170,8 @@ function ProductProvider({ children }) {
   useEffect(() => {
     if (updateStatus === "success") {
       toast.success(flashMessage);
+    } else if (updateStatus === "error") {
+      toast.error(flashMessage);
     }
     setUpdateStatus(null);
   }, [updateStatus]);
@@ -203,6 +216,7 @@ function ProductProvider({ children }) {
     getProducts();
   }, []);
 
+  // Provide the product context value to the children
   return (
     <productContext.Provider
       value={{

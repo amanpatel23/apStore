@@ -6,30 +6,38 @@ import { Link } from "react-router-dom";
 import styles from "./SignUp.module.css";
 
 function SignUp() {
+  // State variables for name, email, password, and confirm password
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Navigate object for programmatic navigation
   const navigate = useNavigate();
 
+  // Accessing data and functions from the user context
   const { signUpHandler, user } = useContext(userContext);
 
+  // Submit handler for the sign-up form
   const submitHandler = async (event) => {
     event.preventDefault();
+
+    // Check if passwords match
     if (password !== confirmPassword) {
       toast.error("Passwords Don't Match.");
       return;
     }
 
+    // Call the sign-up handler
     await signUpHandler(name, email, password);
   };
-  
+
+  // Effect hook to redirect to home page if user is already signed in
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate("/");
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   return (
     <div className={styles.container}>

@@ -12,9 +12,11 @@ import { doc, setDoc } from "firebase/firestore";
 const userContext = createContext();
 
 function UserProvider({ children }) {
+  // State variables
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Sign up a new user
   const signUpHandler = async (name, email, password) => {
     setIsLoading(true);
     try {
@@ -39,6 +41,7 @@ function UserProvider({ children }) {
     }
   };
 
+  // Sign in an existing user
   const signInHandler = async (email, password) => {
     setIsLoading(true);
     try {
@@ -57,15 +60,17 @@ function UserProvider({ children }) {
     }
   };
 
+  // Log out the current user
   const logOutHandler = async () => {
     try {
       signOut(auth);
-      toast.success("LoggedOut Successfully.");
+      toast.success("Logged Out Successfully.");
     } catch (error) {
       toast.error(error.message);
     }
   };
 
+  // Listen for authentication state changes
   useEffect(() => {
     setIsLoading(true);
     const unsubscribe = onAuthStateChanged(auth, (currUser) => {
@@ -82,6 +87,7 @@ function UserProvider({ children }) {
     };
   }, []);
 
+  // Provide the user context value to child components
   return (
     <userContext.Provider
       value={{
