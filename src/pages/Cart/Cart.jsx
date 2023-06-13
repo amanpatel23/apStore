@@ -22,26 +22,29 @@ function Cart() {
 
   return (
     <div className={styles.cartPage}>
-      <div className={styles.totalCardSection}>
-        <TotalCard total={getTotalPrice()} />
-      </div>
       {cartItems.length == 0 ? (
         <div className={styles.cartEmpty}>
           <h3>Seriously! You Didn't Like Nothing In The Store.</h3>
         </div>
       ) : (
-        <div className={styles.cartCardSection}>
-          {cartItems.map((item) => (
-            <CartCard
-              key={item.id}
-              id={item.id}
-              image={item.image}
-              name={item.name}
-              price={item.price}
-              qty={item.qty}
-            />
-          ))}
-        </div>
+        <>
+          <div className={styles.totalCardSection}>
+            <TotalCard total={getTotalPrice()} />
+          </div>
+
+          <div className={styles.cartCardSection}>
+            {cartItems.map((item) => (
+              <CartCard
+                key={item.id}
+                id={item.id}
+                image={item.image}
+                name={item.name}
+                price={item.price}
+                qty={item.qty}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
