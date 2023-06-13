@@ -27,25 +27,25 @@ function ProductProvider({ children }) {
   const [checkedCategories, setCheckedCategories] = useState(new Set());
   const [maxPrice, setMaxPrice] = useState(100000);
   const [placedOrder, setPlacedOrder] = useState(false);
+  const [cartItemExists, setCartItemExists] = useState("");
 
   const { user } = useContext(userContext);
 
   const addToCartHandler = (id, image, name, price) => {
-    console.log("hye");
     setClickedItem(id);
     const existingItem = cartItems.find((item) => item.id === id);
     if (!existingItem) {
+      setCartItemExists("no");
       const newCartItem = { id, image, name, price, qty: 1 };
       setCartItems((prevCartItems) => [newCartItem, ...prevCartItems]);
     } else {
+      setCartItemExists("yes");
       setCartItems((prevCartItems) =>
         prevCartItems.map((item) =>
           item.id === id ? { ...item, qty: item.qty + 1 } : item
         )
       );
     }
-
-    setFlashMessage("Product Added Successfully");
   };
 
   const decrementQtyHandler = (id) => {
@@ -83,11 +83,18 @@ function ProductProvider({ children }) {
       ...prevOrders,
     ]);
     setCartItems([]);
-    setFlashMessage("Your Order Placed Successfully");
+    setFlashMessage("Your Order Was Placed Successfully");
   };
 
   useEffect(() => {
     if (!clickedItem) return;
+
+    if (cartItemExists === "no") {
+      setFlashMessage("Product Added Successfully");
+    } else if (cartItemExists === "yes") {
+      setFlashMessage("Product Count Incremented Successfully");
+    }
+
     const updateCartItem = async () => {
       try {
         await updateDoc(doc(db, "users", user.uid), {
@@ -96,32 +103,35 @@ function ProductProvider({ children }) {
         setUpdateStatus("success");
         setClickedItem(null);
         setPlacedOrder(false);
+        setCartItemExists("");
       } catch (error) {
         toast.error(error.message);
         setClickedItem(null);
         setPlacedOrder(false);
+        setCartItemExists("");
       }
     };
 
     updateCartItem();
-  }, [cartItems, clickedItem]);
+  }, [cartItems, clickedItem, cartItemExists]);
 
   useEffect(() => {
     if (!placedOrder) return;
 
-    isOrderDetailsLoading(true);
+    setIsOrderDetailsLoading(true);
     const updateOrders = async () => {
       try {
         await updateDoc(doc(db, "users", user.uid), {
           purchases: orders,
+          cartItems: cartItems,
         });
         setUpdateStatus("success");
         setPlacedOrder(false);
-        isOrderDetailsLoading(false);
+        setIsOrderDetailsLoading(false);
       } catch (error) {
         toast.error(error.message);
         setPlacedOrder(false);
-        isOrderDetailsLoading(false);
+        setIsOrderDetailsLoading(false);
       }
     };
 

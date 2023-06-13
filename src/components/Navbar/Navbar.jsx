@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
 import { userContext } from "../../context/userContext";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 
 function Navbar() {
   const { user, logOutHandler } = useContext(userContext);
 
+  const navigate = useNavigate();
+
   const logOut = () => {
     logOutHandler();
+    navigate('/');
   };
 
   return (
