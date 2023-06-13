@@ -3,10 +3,13 @@ import { productContext } from "../../context/productContext";
 import styles from "./Checkbox.module.css";
 
 function Checkbox({ label }) {
-  const [isChecked, setIsChecked] = useState(false);
 
+  // checkedCategories set
   const { checkedCategories, setCheckedCategories } = useContext(productContext);
+  // checked status
+  const [isChecked, setIsChecked] = useState(() => checkedCategories.has(label));
 
+  // toggle checkbox check function
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
   };
@@ -17,16 +20,15 @@ function Checkbox({ label }) {
     } else {
       const updatedSet = new Set(checkedCategories);
       updatedSet.delete(label);
-      setCheckedCategories(updatedSet)
+      setCheckedCategories(updatedSet);
     }
-
-  }, [isChecked])
+  }, [isChecked, label, setCheckedCategories]);
 
   return (
     <label className={styles.checkboxContainer}>
       <input
         type="checkbox"
-        checked={checkedCategories.has(label) ? true : false}
+        checked={isChecked}
         onChange={toggleCheckbox}
         className={styles.checkboxInput}
       />
