@@ -2,6 +2,26 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Hosted Link:
+https://apstore.netlify.app/
+
+### apStore Description:
+apStore is a full-stack e-commerce web application built using React and Firebase. It provides a seamless shopping experience for users, allowing them to sign up, sign in, and log out. Once logged in, users can browse through a variety of products displayed on the home page. They have the ability to add products to their cart, apply filters to refine their search, and search for specific products by name. The site also offers the functionality to increment and decrement product quantities within the cart. Users can proceed to place orders directly from their cart page. Additionally, a dedicated orders page is available to users, where they can view their previous orders. The site leverages Firebase's Firestore for storing user information and utilizes Firebase Authentication for secure user authentication.
+
+### Functionality and Technologies Used:
+1. User authentication (signup, signin, logout)
+2. Product browsing and selection
+3. Cart management (add, increment, decrement)
+4. Filtering and searching products
+5. Order placement
+6. Previous order history
+7. React (front-end framework)
+8. Firebase Firestore (database)
+9. Firebase Authentication (user authentication)
+10. JavaScript (programming language)
+11. HTML/CSS (styling and layout)
+12. Git/GitHub (version control and repository hosting)
+
 ## Available Scripts
 
 In the project directory, you can run:
